@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <form action="" id="c1">
+        <input type="text" placeholder="创建用户名" class="form-control" name="studentUsername" v-model="studentUsername" />
+        <input type="text" placeholder="输入学号" class="form-control" v-model="studentId" />
+        <input type="password" placeholder="创建密码" class="form-control" v-model="studentPassword" />
+
+        <input type="button" @click="login()" value="登录">
+        <input type="button" @click="reg()" value="注册">
+    </form>
+    <form action="" id="deleteForm">
+        <input type="text" placeholder="输入要删除的学号" class="form-control" name="studentId" id="deleteStudentId" />
+        <input type="button" @click="deleteUser()" value="删除">
+    </form>
+    <form action="" id="updateForm">
+        <input type="text" placeholder="输入学号" class="form-control" name="studentId" id="updateStudentId" />
+        <input type="text" placeholder="输入旧密码" class="form-control" name="oldPassword" id="oldPassword" />
+        <input type="text" placeholder="输入新密码" class="form-control" name="newPassword" id="newPassword" />
+        <input type="button" @click="updatePassword()" value="修改密码">
+    </form>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput">
+        <input type="button" @click="uploadFile()" value="上传文件">
+    </form>
+    <!-- 下载文件链接 -->
+    <div v-if="fileDownloadUri">
+        <a :href="fileDownloadUri" download>点击下载文件</a>
+    </div>
+</div>
+
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data:{
+            studentUsername: '',
+            studentId: '',
+            studentPassword: '',
+            fileDownloadUri: null // 文件下载链接
+        },
+        methods:{
+            reg: function () {
+                let data = new FormData(document.querySelector("#c1"));
+                axios.post("/studentReg", data).then(function (response) {
+                    console.log(response.data) ;
+                })
+            },
+            login: function () {
+                let requestData = {
+                    studentId: this.studentId,
+                    studentPassword: this.studentPassword
+                };
+                axios.post("/studentLogin", requestData).then(function(response) {
+                    console.log(response.data);
+                    // 保存Token到LocalStorage中
+                    localStorage.setItem('token', response.data.token);
+                }).catch(function(error) {
+                    console.error(error);
+                });
+            },
+            deleteUser: function () {
+                let studentId = document.querySelector("#deleteStudentId").value;
+                axios.delete("/students/" + studentId, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token') // 添加Token到请求Header中
+                    }
+                }).then(function (response) {
+                    console.log(response.data) ;
+                }).catch(function(error) {
+                    console.error(error);
+                });
+            },
+            updatePassword: function () {
+                let studentId = document.querySelector("#updateStudentId").value;
+                let oldPassword = document.querySelector("#oldPassword").value;
+                let newPassword = document.querySelector("#newPassword").value;
+                axios.put("/students/" + studentId + "/password", {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword
+                }, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token') // 添加Token到请求Header中
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                }).catch(function (error) {
+                    console.error(error);
+                });
+
+            },
+            uploadFile: function () {
+                let formData = new FormData();
+                formData.append('file', document.querySelector("#fileInput").files[0]);
+                axios.post("/uploadFile", formData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'), // 添加Token到请求Header中
+                    }
+                }).then(function (response) {
+                    console.log(response.data);
+                    // 设置文件下载链接
+                    vue.fileDownloadUri = response.data.fileDownloadUri;
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
+
+
+
+
+
+        }
+    })
+</script>
+</body>
+</html>
