@@ -22,7 +22,7 @@ public class FileStorage_ServiceImpl implements FileStorage_Service {
     private final Path fileStorageLocation;
 
     // 支持的文件类型列表
-    private final List<String> supportedFileTypes = Arrays.asList("mp4", "pdf");
+    private final List<String> supportedFileTypes = Arrays.asList("mp4", "pdf","txt","docx","pptx","jpg","png","zip","doc");
 
     public FileStorage_ServiceImpl() {
         this.fileStorageLocation = Paths.get("uploads").toAbsolutePath().normalize();

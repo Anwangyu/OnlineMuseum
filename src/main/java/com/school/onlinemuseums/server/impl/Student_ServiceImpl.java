@@ -1,9 +1,10 @@
 package com.school.onlinemuseums.server.impl;
 
+import com.school.onlinemuseums.common.RedisCacheManager;
 import com.school.onlinemuseums.domain.entity.User_basic;
 import com.school.onlinemuseums.mapper.User_BasicMapper;
 import com.school.onlinemuseums.server.Student_Service;
-import com.school.onlinemuseums.util.RedisCacheManager;
+import com.school.onlinemuseums.util.RedisCacheUtil;
 import com.school.onlinemuseums.util.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

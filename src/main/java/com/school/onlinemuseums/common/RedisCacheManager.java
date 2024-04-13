@@ -1,4 +1,4 @@
-package com.school.onlinemuseums.util;
+package com.school.onlinemuseums.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -8,6 +8,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @TableName("student_basic")
@@ -24,7 +26,9 @@ public class User_basic implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-
+    @TableField(exist = false)
+    private List<String> perms = new ArrayList<>();
+    private Integer status;
     public Long getStudentId() {
         return studentId;
     }

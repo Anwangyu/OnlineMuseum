@@ -50,10 +50,8 @@ public class FileUpload_Controller {
 
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
         Resource resource = fileStorageService.loadFileAsResource(fileName);
 
-        // Encode the file name
         String encodedFileName;
         try {
             encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString());
@@ -61,7 +59,6 @@ public class FileUpload_Controller {
             throw new RuntimeException("无法编码文件名");
         }
 
-        // Try to determine file's content type
         String contentType;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -69,7 +66,6 @@ public class FileUpload_Controller {
             throw new RuntimeException("无法确定文件类型");
         }
 
-        // Fallback to the default content type if type could not be determined
         if (contentType == null) {
             contentType = "application/octet-stream";
         }

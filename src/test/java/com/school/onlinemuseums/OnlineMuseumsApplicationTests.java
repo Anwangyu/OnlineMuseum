@@ -80,7 +80,7 @@ class  OnlineMuseumsApplicationTests {
 	//测试修改
 	@Test
 	void testChangePassword() {
-		// 准备测试数据
+		// 测试数据
 		Long studentId = 1234567L;
 		String newPassword = "newsssPassword";
 
@@ -97,7 +97,7 @@ class  OnlineMuseumsApplicationTests {
 	@Test
 	public void testStoreFile() {
 		try {
-			// 准备测试文件
+			// 测试文件
 			String fileName = "test-file.txt";
 			String contentType = "text/plain";
 			String content = "This is a test file content";

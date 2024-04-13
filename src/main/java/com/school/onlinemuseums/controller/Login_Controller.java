@@ -12,6 +12,8 @@ public class Login_Controller {
 
     @Autowired
     private Student_Service studentService;
+    @Autowired
+    private TokenGenerator tokenGenerator;
 
     @RequestMapping(value = "/studentReg", method = RequestMethod.POST)
     public Result student_register(@RequestBody User_basic userBasic) {
@@ -29,7 +31,7 @@ public class Login_Controller {
         if (loginResult == 1) {
             // 用户登录成功，生成令牌并返回给客户端
             Long studentId = userBasic.getStudentId();
-            String token = TokenGenerator.generateToken(studentId);
+            String token = tokenGenerator.generateToken(studentId);
             return Result.ok("登录成功").put("token", token);
         } else {
             // 用户登录失败，返回相应的错误信息
