@@ -1,2 +1,2 @@
 # OnlineMuseum
-USYxinwenchu
+Temporarily stop updating
