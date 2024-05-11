@@ -1,2 +1,2 @@
 # OnlineMuseum
-Temporarily stop updating
+The public repository is temporarily closed for updates
